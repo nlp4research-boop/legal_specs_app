@@ -1,0 +1,22 @@
+{% extends "base.html" %}
+{% block content %}
+<h2>التصنيفات</h2>
+<table>
+    <thead>
+        <tr>
+            <th>التصنيف</th>
+            <th>Category</th>
+            <th>عدد البنود</th>
+        </tr>
+    </thead>
+    <tbody>
+    {% for cat in categories %}
+        <tr>
+            <td><a href="/category/{{ cat.slug }}">{{ cat.name_ar }}</a></td>
+            <td>{{ cat.name_en }}</td>
+            <td>{{ cat.nodes|length }}</td>
+        </tr>
+    {% endfor %}
+    </tbody>
+</table>
+{% endblock %}

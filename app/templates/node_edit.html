@@ -1,0 +1,82 @@
+{% extends "base.html" %}
+{% block content %}
+<h2>تعديل: {{ node.title or node.spec_code }}</h2>
+<form method="post" class="spec-form">
+    <div class="field-group">
+        <label>spec_id</label>
+        <input type="text" name="spec_id" value="{{ form.spec_id }}" />
+    </div>
+
+    <div class="field-group">
+        <label>contract_type</label>
+        <input type="text" name="contract_type" value="{{ form.contract_type }}" />
+    </div>
+
+    <div class="field-group">
+        <label>clause_type</label>
+        <input type="text" name="clause_type" value="{{ form.clause_type }}" />
+    </div>
+
+    <div class="field-group">
+        <label>jurisdiction</label>
+        <input type="text" name="jurisdiction" value="{{ form.jurisdiction }}" />
+    </div>
+
+    <div class="field-group">
+        <label>purpose</label>
+        <textarea name="purpose" rows="3">{{ form.purpose }}</textarea>
+    </div>
+
+    <hr />
+
+    <div class="field-group">
+        <label>scope.applies_when (كل شرط بسطر)</label>
+        <textarea name="scope_applies_when" rows="4">{{ form.scope_applies_when }}</textarea>
+    </div>
+
+    <div class="field-group">
+        <label>scope.does_not_apply_when (كل شرط بسطر)</label>
+        <textarea name="scope_does_not_apply_when" rows="4">{{ form.scope_does_not_apply_when }}</textarea>
+    </div>
+
+    <hr />
+
+    <div class="field-group">
+        <label>allowed.model_may (كل عنصر بسطر)</label>
+        <textarea name="allowed_model_may" rows="4">{{ form.allowed_model_may }}</textarea>
+    </div>
+
+    <div class="field-group">
+        <label>disallowed.model_must_not (كل عنصر بسطر)</label>
+        <textarea name="disallowed_model_must_not" rows="4">{{ form.disallowed_model_must_not }}</textarea>
+    </div>
+
+    <hr />
+
+    <div class="field-group">
+        <label>required_reasoning.before_answer_think_about (كل نقطة بسطر)</label>
+        <textarea name="reasoning_before" rows="4">{{ form.reasoning_before }}</textarea>
+    </div>
+
+    <div class="field-group">
+        <label>required_reasoning.potential_risk_signals (كل نقطة بسطر)</label>
+        <textarea name="reasoning_risks" rows="4">{{ form.reasoning_risks }}</textarea>
+    </div>
+
+    <hr />
+
+    <div class="field-group">
+        <label>edge_cases.model_must_know (كل حالة بسطر)</label>
+        <textarea name="edge_cases_must_know" rows="4">{{ form.edge_cases_must_know }}</textarea>
+    </div>
+
+    <hr />
+
+    <div class="field-group">
+        <label>safe_completion_rules (JSON كامل، اختياري)</label>
+        <textarea name="safe_completion_rules" rows="6">{{ form.safe_completion_rules }}</textarea>
+    </div>
+
+    <button type="submit">حفظ كنسخة جديدة</button>
+</form>
+{% endblock %}

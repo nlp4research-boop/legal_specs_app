@@ -1,0 +1,26 @@
+{% extends "base.html" %}
+{% block content %}
+<h2>سجل النسخ – {{ node.title or node.spec_code }}</h2>
+<table>
+    <thead>
+        <tr>
+            <th>الإصدار</th>
+            <th>تاريخ الإنشاء</th>
+            <th>المستخدم</th>
+            <th>عرض</th>
+        </tr>
+    </thead>
+    <tbody>
+    {% for v in versions %}
+        <tr>
+            <td>v{{ v.version }}</td>
+            <td>{{ v.created_at }}</td>
+            <td>{{ v.created_by or "system" }}</td>
+            <td><a href="/node/{{ node.id }}/version/{{ v.version }}">عرض هذه النسخة</a></td>
+        </tr>
+    {% else %}
+        <tr><td colspan="4">لا يوجد نسخ بعد.</td></tr>
+    {% endfor %}
+    </tbody>
+</table>
+{% endblock %}

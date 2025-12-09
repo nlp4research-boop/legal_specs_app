@@ -1,0 +1,15 @@
+{% extends "base.html" %}
+{% block content %}
+<h2>{{ category.name_ar }} ({{ category.slug }})</h2>
+
+<ul>
+    {% for node in nodes %}
+        <li>
+            <a href="/node/{{ node.id }}">{{ node.title or node.spec_code }}</a>
+            <small>({{ node.spec_code }})</small>
+        </li>
+    {% else %}
+        <li>لا يوجد بنود بعد.</li>
+    {% endfor %}
+</ul>
+{% endblock %}

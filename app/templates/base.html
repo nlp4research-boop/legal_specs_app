@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+  <head>
+    <meta charset="UTF-8" />
+    <title>{{ title or "Legal Specs" }}</title>
+    <link rel="stylesheet" href="/static/style.css" />
+  </head>
+  <body>
+    <header>
+      <h1>Legal Specs App</h1>
+      <nav>
+        <a href="/">الرئيسية</a>
+      </nav>
+    </header>
+
+    <main>{% block content %}{% endblock %}</main>
+
+    <footer>
+      <small>Simple B&amp;W · FastAPI · SQLite</small>
+    </footer>
+  </body>
+</html>

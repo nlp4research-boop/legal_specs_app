@@ -1,0 +1,110 @@
+{% extends "base.html" %}
+{% block content %}
+<h2>نسخة v{{ ver.version }} – {{ node.title or node.spec_code }}</h2>
+<p><strong>تاريخ الإنشاء:</strong> {{ ver.created_at }} · {{ ver.created_by or "system" }}</p>
+
+<div class="spec-view read-only">
+    <div class="field-group">
+        <label>spec_id</label>
+        <div class="value">{{ form.spec_id }}</div>
+    </div>
+    <div class="field-group">
+        <label>contract_type</label>
+        <div class="value">{{ form.contract_type }}</div>
+    </div>
+    <div class="field-group">
+        <label>clause_type</label>
+        <div class="value">{{ form.clause_type }}</div>
+    </div>
+    <div class="field-group">
+        <label>jurisdiction</label>
+        <div class="value">{{ form.jurisdiction }}</div>
+    </div>
+    <div class="field-group">
+        <label>purpose</label>
+        <div class="value multiline">{{ form.purpose }}</div>
+    </div>
+
+    <hr />
+
+    <div class="field-group">
+        <label>scope.applies_when</label>
+        <ul>
+            {% for line in form.scope_applies_when.splitlines() if line.strip() %}
+            <li>{{ line }}</li>
+            {% endfor %}
+        </ul>
+    </div>
+
+    <div class="field-group">
+        <label>scope.does_not_apply_when</label>
+        <ul>
+            {% for line in form.scope_does_not_apply_when.splitlines() if line.strip() %}
+            <li>{{ line }}</li>
+            {% endfor %}
+        </ul>
+    </div>
+
+    <hr />
+
+    <div class="field-group">
+        <label>allowed.model_may</label>
+        <ul>
+            {% for line in form.allowed_model_may.splitlines() if line.strip() %}
+            <li>{{ line }}</li>
+            {% endfor %}
+        </ul>
+    </div>
+
+    <div class="field-group">
+        <label>disallowed.model_must_not</label>
+        <ul>
+            {% for line in form.disallowed_model_must_not.splitlines() if line.strip() %}
+            <li>{{ line }}</li>
+            {% endfor %}
+        </ul>
+    </div>
+
+    <hr />
+
+    <div class="field-group">
+        <label>required_reasoning.before_answer_think_about</label>
+        <ul>
+            {% for line in form.reasoning_before.splitlines() if line.strip() %}
+            <li>{{ line }}</li>
+            {% endfor %}
+        </ul>
+    </div>
+
+    <div class="field-group">
+        <label>required_reasoning.potential_risk_signals</label>
+        <ul>
+            {% for line in form.reasoning_risks.splitlines() if line.strip() %}
+            <li>{{ line }}</li>
+            {% endfor %}
+        </ul>
+    </div>
+
+    <hr />
+
+    <div class="field-group">
+        <label>edge_cases.model_must_know</label>
+        <ul>
+            {% for line in form.edge_cases_must_know.splitlines() if line.strip() %}
+            <li>{{ line }}</li>
+            {% endfor %}
+        </ul>
+    </div>
+
+    <hr />
+
+    <div class="field-group">
+        <label>safe_completion_rules (عرض فقط)</label>
+        <textarea readonly rows="4">{{ form.safe_completion_rules }}</textarea>
+    </div>
+</div>
+
+<p>
+    <a href="/node/{{ node.id }}">⬅ العودة لآخر نسخة</a>
+</p>
+{% endblock %}
