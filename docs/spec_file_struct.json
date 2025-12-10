@@ -1,0 +1,28 @@
+{
+    "spec_id": "",
+    "contract_type": "",
+    "clause_type": "",
+    "jurisdiction": "",
+    "purpose": "",
+    "scope": {
+        "applies_when": [],
+        "does_not_apply_when": []
+    },
+    "allowed": {
+        "model_may": []
+    },
+    "disallowed": {
+        "model_must_not": []
+    },
+    "required_reasoning": {
+        "before_answer_think_about": [],
+        "potential_risk_signals": []
+    },
+    "edge_cases": {
+        "model_must_know": []
+    },
+    "safe_completion_rules": {
+        "model_should": [],
+        "response_template": ""
+    }
+}
