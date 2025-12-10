@@ -70,49 +70,66 @@
   </div>
 
   <hr />
+  <div>
+    <h2>طريقة الاستنتاج المطلوبة</h2>
+    <div class="field-group">
+      <label>قبل الاجابة ياخذ بالحسبان</label>
+      <ul>
+        {% for line in form.reasoning_before.splitlines() if line.strip() %}
+        <li>{{ line }}</li>
+        {% endfor %}
+      </ul>
+    </div>
 
-  <div class="field-group">
-    <label>required_reasoning.before_answer_think_about</label>
-    <ul>
-      {% for line in form.reasoning_before.splitlines() if line.strip() %}
-      <li>{{ line }}</li>
-      {% endfor %}
-    </ul>
+    <div class="field-group">
+      <label>اشارات لمخاطر محتملة</label>
+      <ul>
+        {% for line in form.reasoning_risks.splitlines() if line.strip() %}
+        <li>{{ line }}</li>
+        {% endfor %}
+      </ul>
+    </div>
   </div>
-
-  <div class="field-group">
-    <label>required_reasoning.potential_risk_signals</label>
-    <ul>
-      {% for line in form.reasoning_risks.splitlines() if line.strip() %}
-      <li>{{ line }}</li>
-      {% endfor %}
-    </ul>
-  </div>
-
   <hr />
+<div>
+    <h2>الحالات الخاصة </h2>
+  <div>
+    <div class="field-group">
+      <label>على النظام ان يعلَم</label>
+      <ul>
+        {% for line in form.edge_cases_must_know.splitlines() if line.strip() %}
+        <li>{{ line }}</li>
+        {% endfor %}
+      </ul>
+    </div>
 
-  <div class="field-group">
-    <label>edge_cases.model_must_know</label>
-    <ul>
-      {% for line in form.edge_cases_must_know.splitlines() if line.strip() %}
-      <li>{{ line }}</li>
-      {% endfor %}
-    </ul>
+    <hr />
+
+    <div class="field-group">
+      <label>قواعد الاجابة الامنة قانونياً: </label>
+      <label>لو كان سؤال المستخدم غير امن او غير قانوني:</label>
+      <ul>
+        {% for line in form.safe_completion_rules_should.splitlines() if line.strip() %}
+        <li>{{ line }}</li>
+        {% endfor %}
+      
+    </div>
+    <div class="field-group">
+      <label>الرد المسموح:</label>
+      <ul>
+        {{ form.safe_completion_rules_template }}
+        <li>{{ line }}</li>
+        
+      
+    </div>
   </div>
+  {% else %}
+  <p>لا يوجد محتوى بعد.</p>
+  {% endif %}
 
-  <hr />
-
-  <div class="field-group">
-    <label>safe_completion_rules (عرض فقط)</label>
-    <textarea readonly rows="4">{{ form.safe_completion_rules }}</textarea>
-  </div>
+  <p>
+    <a href="/node/{{ node.id }}/edit">✏️ تعديل (يتطلب Basic Auth)</a> |
+    <a href="/node/{{ node.id }}/history">🕒 سجل النسخ</a>
+  </p>
+  {% endblock %}
 </div>
-{% else %}
-<p>لا يوجد محتوى بعد.</p>
-{% endif %}
-
-<p>
-  <a href="/node/{{ node.id }}/edit">✏️ تعديل (يتطلب Basic Auth)</a> |
-  <a href="/node/{{ node.id }}/history">🕒 سجل النسخ</a>
-</p>
-{% endblock %}

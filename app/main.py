@@ -58,7 +58,10 @@ def _default_spec(node: Node):
             "potential_risk_signals": [],
         },
         "edge_cases": {"model_must_know": []},
-        "safe_completion_rules": {},
+        "safe_completion_rules": {
+            "model_should": [],
+            "response_template": "",
+        },
     }
 
 
@@ -71,6 +74,7 @@ def _normalize_spec_dict(node: Node, data: dict) -> dict:
                 merge(a[k], v)
             else:
                 a[k] = v
+
     merge(base, data or {})
     return base
 
@@ -84,6 +88,7 @@ def _build_form_data(node: Node, version_obj: ContentVersion | None):
     else:
         data = {}
     spec = _normalize_spec_dict(node, data)
+    print("=============>", spec)
 
     def join_lines(lst):
         if not isinstance(lst, list):
@@ -97,16 +102,30 @@ def _build_form_data(node: Node, version_obj: ContentVersion | None):
         "jurisdiction": spec.get("jurisdiction", ""),
         "purpose": spec.get("purpose", ""),
         "scope_applies_when": join_lines(spec.get("scope", {}).get("applies_when", [])),
-        "scope_does_not_apply_when": join_lines(spec.get("scope", {}).get("does_not_apply_when", [])),
+        "scope_does_not_apply_when": join_lines(
+            spec.get("scope", {}).get("does_not_apply_when", [])
+        ),
         "allowed_model_may": join_lines(spec.get("allowed", {}).get("model_may", [])),
-        "disallowed_model_must_not": join_lines(spec.get("disallowed", {}).get("model_must_not", [])),
-        "reasoning_before": join_lines(spec.get("required_reasoning", {}).get("before_answer_think_about", [])),
-        "reasoning_risks": join_lines(spec.get("required_reasoning", {}).get("potential_risk_signals", [])),
-        "edge_cases_must_know": join_lines(spec.get("edge_cases", {}).get("model_must_know", [])),
-        "safe_completion_rules": json.dumps(
-            spec.get("safe_completion_rules", {}), ensure_ascii=False, indent=2
+        "disallowed_model_must_not": join_lines(
+            spec.get("disallowed", {}).get("model_must_not", [])
+        ),
+        "reasoning_before": join_lines(
+            spec.get("required_reasoning", {}).get("before_answer_think_about", [])
+        ),
+        "reasoning_risks": join_lines(
+            spec.get("required_reasoning", {}).get("potential_risk_signals", [])
+        ),
+        "edge_cases_must_know": join_lines(
+            spec.get("edge_cases", {}).get("model_must_know", [])
+        ),
+        "safe_completion_rules_should": join_lines(
+            spec.get("safe_completion_rules", {}).get("model_should", [])
+        ),
+        "safe_completion_rules_template": join_lines(
+            spec.get("safe_completion_rules", {}).get("response_template", "")
         ),
     }
+    print("====>", spec.get("safe_completion_rules", {}).get("response_template", ""))
     return form_data, spec
 
 
@@ -218,7 +237,8 @@ def save_node(
     reasoning_before: str = Form(""),
     reasoning_risks: str = Form(""),
     edge_cases_must_know: str = Form(""),
-    safe_completion_rules: str = Form(""),
+    safe_completion_rules_should: str = Form(""),
+    safe_completion_template: str = Form(""),
     db: Session = Depends(get_db),
     user: str = Depends(get_current_user),
 ):
@@ -230,11 +250,6 @@ def save_node(
         return [line.strip() for line in text.splitlines() if line.strip()]
 
     scr = {}
-    if safe_completion_rules.strip():
-        try:
-            scr = json.loads(safe_completion_rules)
-        except json.JSONDecodeError:
-            scr = {"raw": safe_completion_rules}
 
     spec = {
         "spec_id": spec_id,
@@ -253,7 +268,10 @@ def save_node(
             "potential_risk_signals": split_lines(reasoning_risks),
         },
         "edge_cases": {"model_must_know": split_lines(edge_cases_must_know)},
-        "safe_completion_rules": scr,
+        "safe_completion_rules": {
+            "model_should": split_lines(safe_completion_rules_should),
+            "response_template": split_lines(safe_completion_template),
+        },
     }
 
     node.spec_id = spec_id
